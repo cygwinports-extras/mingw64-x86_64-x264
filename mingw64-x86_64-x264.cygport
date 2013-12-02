@@ -1,0 +1,27 @@
+CROSS_HOST="x86_64-w64-mingw32"
+inherit cross
+
+NAME="mingw64-x86_64-x264"
+VERSION=20130917
+RELEASE=1
+CATEGORY="Video"
+SUMMARY="H264/AVC video stream encoding library"
+DESCRIPTION="x264 is a free library for encoding H264/AVC video streams."
+HOMEPAGE="http://www.videolan.org/developers/x264.html"
+SRC_URI="http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${VERSION}-2245-stable.tar.bz2"
+SRC_DIR="x264-snapshot-${VERSION}-2245-stable"
+
+DIFF_EXCLUDES="*.po"
+
+src_compile() {
+	lndirs
+	cd ${B}
+	./configure \
+		--host=${CROSS_HOST} \
+		--cross-prefix=${CROSS_HOST}- \
+		--prefix=${CROSS_PREFIX} \
+		--enable-shared --enable-static --disable-cli
+	cygmake
+}
+
+DOCS="doc/*.txt"
